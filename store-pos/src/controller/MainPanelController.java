@@ -21,9 +21,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -218,11 +220,25 @@ public class MainPanelController implements Initializable {
     }
 
     @FXML
-    private void close() {
+   // private void close() {
+    //    Stage stage = (Stage) borderPane.getScene().getWindow();
+       // stage.close();
+    //}
+
+    private void close() throws IOException {
+
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
-    }
 
+        Parent root = FXMLLoader.load(getClass().getResource("/view/LoginView.fxml"));
+
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.setTitle("User Login");
+        stage.getIcons().add(new Image("/asset/icon.png"));
+        stage.show();
+    }
     @FXML
     private void loadAddSalesView(ActionEvent e) {
         loadFXML("AddSalesView");
