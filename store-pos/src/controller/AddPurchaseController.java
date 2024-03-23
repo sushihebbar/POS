@@ -435,6 +435,19 @@ public class AddPurchaseController implements Initializable {
 
     @FXML
     private void save() {
+        Window owner = buttonSave.getScene().getWindow();
+        if(date.getValue()==null)
+        {
+        AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+                    "date is required");
+        return;
+        }
+//        if(tableViewItem.getItems()==null)
+//        {
+//            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+//                    "no item added");
+//            return;
+//        }
         LocalDate documentDate = LocalDate.now();
         try {
             Statement stmt = con.createStatement();
@@ -459,9 +472,15 @@ public class AddPurchaseController implements Initializable {
                 }
                 count++;
             }
+            if(count ==0)
+        {
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+                    "no item added");
+            return;
+        }
             ResultSet record = stmt.executeQuery(posDetailsQuery);
 
-            Window owner = buttonSave.getScene().getWindow();
+//            Window owner = buttonSave.getScene().getWindow();
 
             AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "A record has been saved successfully.");

@@ -114,7 +114,7 @@
       </VBox>
    </left>
    <top>
-      <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="1360.0" style="-fx-background-color: #2b2a26;" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="1344.0" style="-fx-background-color: #2b2a26;" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="journalDetail1" mnemonicParsing="false" onAction="#close" prefHeight="18.0" prefWidth="74.0" style="-fx-text-fill: #f0f0f0;" styleClass="bt" stylesheets="@mainpanel.css" text="Log Out" textAlignment="JUSTIFY">
                <font>
@@ -135,7 +135,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="108.0" prefWidth="1190.0">
+            <HBox prefHeight="111.0" prefWidth="1117.0">
                <children>
                   <AnchorPane prefHeight="129.0" prefWidth="208.0">
                      <children>

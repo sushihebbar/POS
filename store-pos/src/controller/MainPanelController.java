@@ -231,7 +231,7 @@ public class MainPanelController implements Initializable {
         stage.close();
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginView.fxml"));
-
+           
         Scene scene = new Scene(root);
 
         stage.setScene(scene);

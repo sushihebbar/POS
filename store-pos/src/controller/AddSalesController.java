@@ -272,7 +272,7 @@ public class AddSalesController implements Initializable {
                     + "p.sale_price from items a, uoms b, uoms c,\n"
                     + "(select item_id, sale_price from item_prices\n"
                     + "where date'" + documentDate + "' between effective_from and effective_to) p\n"
-                    + "where a.name=? and a.pack_unit_id = b.UOM_ID and a.standard_unit_id = c.uom_id\n"
+                    + "where a.name=? and a.pack_unit_id = b.UOM_ID and qoh>0 and a.standard_unit_id = c.uom_id\n"
                     + "and a.item_id = p.item_id\n"
                     + "order by 2";
             PreparedStatement pstmt = con.prepareStatement(query);
@@ -513,9 +513,11 @@ public class AddSalesController implements Initializable {
     }
 
     public void printInvoice() {
-        String sourceFile = "C://Users/Ramesh Godara/Documents/NetBeansProjects/RPOS/src/print/Invoice.jrxml";
+        String sourceFile = "D:/POS/store-pos/src/print/Invoice.jrxml";
+		System.out.println("invoice");
         try {
             JasperReport jr = JasperCompileManager.compileReport(sourceFile);
+            System.out.println(jr);
             HashMap<String, Object> para = new HashMap<>();
             para.put("invoiceNo", "SHOP01/000001");
             para.put("party", textFieldParty.getText());
