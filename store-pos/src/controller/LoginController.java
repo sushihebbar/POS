@@ -30,7 +30,7 @@ import main.MainPanel;
 
 /**
  *
- * @author Ramesh Godara
+ * @author 654_674_625_650
  */
 public class LoginController implements Initializable {
 

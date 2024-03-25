@@ -5,13 +5,13 @@ and open the template in the editor.
 */
 /* 
     Created on : Oct 28, 2020, 9:06:34 PM
-    Author     : Ramesh Godara
+    Author     : 650_654_674_625
 */
 .parent {
     -fx-background-color: #fff
 }
 .sidebar {
-    -fx-background-color: gray
+    -fx-background-color: #e6e6ff
 }
 .bt {
     -fx-background-color: #404040;

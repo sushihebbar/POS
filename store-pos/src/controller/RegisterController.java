@@ -29,7 +29,7 @@ import javafx.stage.Window;
 
 /**
  *
- * @author Ramesh Godara
+ * @author 650_654_674_625
  */
 public class RegisterController implements Initializable {
 

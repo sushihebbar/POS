@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package controller;
+import java.io.InputStream;
 
 import helper.AlertHelper;
 import database.DbConnection;
@@ -48,7 +49,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
- * @author Ramesh Godara
+ * @author 650_654_674_625
  */
 public class AddSalesController implements Initializable {
 
@@ -178,8 +179,8 @@ public class AddSalesController implements Initializable {
         comboBoxLocation.getItems().setAll("Rack", "Depot", "Display");
         comboBoxLocation.getSelectionModel().select("Depot");
         
-        comboBoxCurrency.getItems().setAll("USD", "FC");
-        comboBoxCurrency.getSelectionModel().select("USD");
+        comboBoxCurrency.getItems().setAll("INR");
+        comboBoxCurrency.getSelectionModel().select("INR");
         
         date.setValue(LocalDate.now());
     }
@@ -513,11 +514,15 @@ public class AddSalesController implements Initializable {
     }
 
     public void printInvoice() {
-        String sourceFile = "D:/POS/store-pos/src/print/Invoice.jrxml";
+        String sourceFile = "/POS/store-pos/src/controller/Invoice.jrxml";
+       
+
 		System.out.println("invoice");
         try {
             JasperReport jr = JasperCompileManager.compileReport(sourceFile);
-            System.out.println(jr);
+                System.out.println(jr);
+
+//            System.out.println(jr);
             HashMap<String, Object> para = new HashMap<>();
             para.put("invoiceNo", "SHOP01/000001");
             para.put("party", textFieldParty.getText());
@@ -536,17 +541,19 @@ public class AddSalesController implements Initializable {
             para.put("point3", "+243 999999999, sales@example.com");
 
             ArrayList<Item> plist = new ArrayList<>();
-
+System.out.println("preparing");
             for (Item item : tableViewItem.getItems()) {
                 plist.add(new Item(item.getItem(), item.getUom(), item.getQuantity(), item.getPrice(), item.getAmount(), item.getLocation(), item.getItemId()));
             }
-
+System.out.println(plist);
             JRBeanCollectionDataSource jcs = new JRBeanCollectionDataSource(plist);
+            
             JasperPrint jp = JasperFillManager.fillReport(jr, para, jcs);
             JasperViewer.viewReport(jp, false);
 
         } catch (Exception ex) {
             System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 

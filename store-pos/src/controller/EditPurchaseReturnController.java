@@ -48,7 +48,7 @@ import org.controlsfx.control.textfield.AutoCompletionBinding;
 /**
  * FXML Controller class
  *
- * @author Ramesh Godara
+ * @author 650_654_674_625
  */
 public class EditPurchaseReturnController implements Initializable {
 

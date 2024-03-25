@@ -32,7 +32,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Ramesh Godara
+ * @author 654_674_625_650
  */
 public class MainPanelController implements Initializable {
 
