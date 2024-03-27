@@ -48,7 +48,8 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<!--<conditionExpression><![CDATA[($V{REPORT_COUNT}%2) == 0]]></conditionExpression>-->
+                       <conditionExpression><![CDATA[java.lang.Integer.toBinaryString((java.lang.Integer)$V{REPORT_COUNT}).endsWith("0")]]></conditionExpression>
 			<style backcolor="#D8D8D8"/>
 		</conditionalStyle>
 	</style>

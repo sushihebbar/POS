@@ -12,6 +12,7 @@ CREATE TABLE "ITEMS" ("ITEM_ID" NUMBER, "CODE" VARCHAR2(60), "NAME" VARCHAR2(100
 
 CREATE TABLE "ITEM_PRICES" ("ITEM_PRICE_ID" NUMBER, "ITEM_ID" NUMBER, "SALE_PRICE" NUMBER, "EFFECTIVE_FROM" DATE, "EFFECTIVE_TO" DATE, "STATUS" NUMBER(1, 0));
 
+
 CREATE TABLE "PURCHASES" ("ORDER_ID" NUMBER, "INVOICE_DATE" DATE, "PARTY_ID" NUMBER, "PARTY_NAME" VARCHAR2(120), "PARTY_CONTACT" VARCHAR2(40), "TOTAL_QUANTITY" NUMBER, "TOTAL_AMOUNT" NUMBER, "OTHER_AMOUNT" NUMBER, "TOTAL_PAYBLE_AMOUNT" NUMBER, "TOTAL_PAID_AMOUNT" NUMBER, "TOTAL_DUE_AMOUNT" NUMBER, "REMARKS" VARCHAR2(1200), "CREATED_ON" DATE);
 
 CREATE TABLE "PURCHASE_DETAILS" ("ORDER_ID" NUMBER, "ITEM_ID" NUMBER, "ITEM_NAME" VARCHAR2(160), "LOCATION" VARCHAR2(40), "UOM" VARCHAR2(20), "QUANTITY" NUMBER, "PRICE" NUMBER, "AMOUNT" NUMBER) ;
@@ -146,7 +147,41 @@ EXCEPTION
     WHEN OTHERS THEN
         NULL;
  END;
+SELECT * FROM pos.ITEM_PRICES ip 
 SELECT * FROM pos.ITEMS i 
 
 
 
+UPDATE pos.ITEMS i SET qoh = 100 WHERE item_id = 101;
+
+INSERT INTO POS.ITEMS (item_id, code, name, pack_unit_id, pack_size, standard_unit_id, created, modified) 
+select 91, 'P102', 'shampoo', 1, 1, 1, to_date('2024-03-27','yyyy-mm-dd'), to_date('2024-03-27','yyyy-mm-dd') FROM dual
+union all 
+select 91, 'P103', 'biscuit', 1, 1, 1, to_date('2024-03-27','yyyy-mm-dd'), to_date('2024-03-27','yyyy-mm-dd')
+FROM dual
+ROLLBACK
+
+INSERT INTO POS.ITEMS  (item_id, code, name, pack_unit_id, pack_size, standard_unit_id, created, modified) 
+select 93, 'P102', 'a1', 1, 1, 1, to_date('2024-03-27','yyyy-mm-dd'), to_date('2024-03-27','yyyy-mm-dd') 
+from dual  
+union all 
+select 93, 'P103', 'bcd', 1, 1, 1, to_date('2024-03-27','yyyy-mm-dd'), to_date('2024-03-27','yyyy-mm-dd') 
+from dual 
+
+COMMIT
+
+insert into pos.item_prices (item_price_id,item_id,sale_price,EFFECTIVE_FROM,EFFECTIVE_TO,status) 
+select 96, 'P104', '1.0', 'to_date('2024-03-27','yyyy-mm-dd'), to_date('2024-03-27','yyyy-mm-dd'),1
+from dual
+
+SELECT * FROM POS.ITEMS i 
+
+select a.item_id, a.name item_name, b.name as pack_unit, a.pack_size, c.name as standard_unit,p.sale_price 
+from pos.items a, pos.uoms b, pos.uoms c,
+    (select item_id, sale_price 
+from pos.item_prices
+--    where date'2024-03-27' between sysdate and sysdate
+) p
+      where a.name='abc' and a.pack_unit_id = b.UOM_ID and qoh>0 and a.standard_unit_id = c.uom_id
+    and a.item_id = p.item_id
+      order by 2

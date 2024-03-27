@@ -131,7 +131,7 @@ public class AddSalesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+System.out.println("in initialize sales");
         String rightPositionCSS = "-fx-alignment: CENTER-RIGHT;";
         String centerPostionCSS = "-fx-alignment: CENTER;";
         AutoCompletionTextFieldBinding test = new AutoCompletionTextFieldBinding<>(textFieldItem, provider);
@@ -205,6 +205,7 @@ public class AddSalesController implements Initializable {
                             + "and a.item_id = p.item_id\n"
                             + "order by 2";
                     PreparedStatement pstmt = con.prepareStatement(query);
+                    
                     pstmt.setString(1, typedItem);
                     ResultSet rs = pstmt.executeQuery();
 
@@ -224,6 +225,7 @@ public class AddSalesController implements Initializable {
                                 + "and a.item_id = p.item_id\n"
                                 + "order by 2";
                         pstmt = con.prepareStatement(query);
+                        System.out.println(query);
                         pstmt.setString(1, "%" + typedItem + "%");
                         rs = pstmt.executeQuery();
 
@@ -277,6 +279,7 @@ public class AddSalesController implements Initializable {
                     + "and a.item_id = p.item_id\n"
                     + "order by 2";
             PreparedStatement pstmt = con.prepareStatement(query);
+            System.out.println(query);
             pstmt.setString(1, pName);
             ResultSet rs = pstmt.executeQuery();
 
@@ -520,7 +523,7 @@ public class AddSalesController implements Initializable {
 		System.out.println("invoice");
         try {
             JasperReport jr = JasperCompileManager.compileReport(sourceFile);
-                System.out.println(jr);
+                System.out.println("in jr");
 
 //            System.out.println(jr);
             HashMap<String, Object> para = new HashMap<>();

@@ -40,7 +40,7 @@ public class MainPanelController implements Initializable {
     private BorderPane borderPane;
 
     @FXML
-    private Button addPurchase, purchaseDetail, addPurchaseReturn, purchaseReturnDetail, addSales, salesDetail, addSalesReturn, salesReturnDetail;
+    private Button addPurchase, purchaseDetail, addPurchaseReturn, purchaseReturnDetail, addSales, salesDetail, addSalesReturn, salesReturnDetail, AddItem;
     
     private List<Button> menus;
     
@@ -59,7 +59,7 @@ public class MainPanelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         menus = Arrays.asList(addPurchase, purchaseDetail, addPurchaseReturn, purchaseReturnDetail, addSales,
-                salesDetail, addSalesReturn, salesReturnDetail);
+                salesDetail, addSalesReturn, salesReturnDetail,AddItem);
         XYChart.Series purchaseSeries= new XYChart.Series();
         
         purchaseSeries.getData().add(new XYChart.Data("1", 8000));
@@ -250,7 +250,14 @@ public class MainPanelController implements Initializable {
         loadFXML("ListSalesView");
         changeButtonBackground(e);
     }
-
+    
+    @FXML
+    private void loadAddItemsView(ActionEvent e) {
+        System.out.println("loadAddItemsView");
+        loadFXML("AddItemView");
+        changeButtonBackground(e);
+    }
+    
     @FXML
     private void loadAddSalesReturnView(ActionEvent e) {
         loadFXML("AddSalesReturnView");
