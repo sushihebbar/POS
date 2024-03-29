@@ -100,7 +100,7 @@ public class MainPanelController implements Initializable {
         
         XYChart.Series saleSeries = new XYChart.Series();
         
-        saleSeries.getData().add(new XYChart.Data("1", 12544));
+        saleSeries.getData().add(new XYChart.Data("1", 10));
         saleSeries.getData().add(new XYChart.Data("2", 10544));
         saleSeries.getData().add(new XYChart.Data("3", 9544));
         saleSeries.getData().add(new XYChart.Data("5", 5857));

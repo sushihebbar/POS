@@ -517,7 +517,7 @@ System.out.println("in initialize sales");
     }
 
     public void printInvoice() {
-        String sourceFile = "/POS/store-pos/src/controller/Invoice.jrxml";
+        String sourceFile = "/POS/store-pos/src/print/Invoice.jrxml";
        
 
 		System.out.println("invoice");
