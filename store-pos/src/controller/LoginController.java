@@ -77,7 +77,7 @@ public class LoginController implements Initializable {
                     stage.close();
 
                     Parent root = FXMLLoader.load(getClass().getResource("/view/MainPanelView.fxml"));
-
+//                      Parent root = FXMLLoader.load(getClass().getResource("/view/main.fxml"));
                     Scene scene = new Scene(root);
 
                     stage.setScene(scene);

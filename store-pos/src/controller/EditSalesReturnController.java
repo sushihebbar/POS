@@ -6,7 +6,7 @@
 package controller;
 
 import database.DbConnection;
-import helper.AlertHelper;
+import helper.AlertFacade;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
 import java.io.IOException;
@@ -476,7 +476,7 @@ public class EditSalesReturnController implements Initializable {
             clearFooterForm();
             Window owner = buttonSave.getScene().getWindow();
 
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "A record has been updated successfully.");
 
             Scene scene = (Scene) ((Node) event.getSource()).getScene();

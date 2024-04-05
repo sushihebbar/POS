@@ -5,7 +5,7 @@
  */
 package controller;
 
-import helper.AlertHelper;
+import helper.AlertFacade;
 import database.DbConnection;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
@@ -462,7 +462,7 @@ public class AddPurchaseReturnController implements Initializable {
 
             Window owner = buttonSave.getScene().getWindow();
 
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "A record has been saved successfully.");
             printInvoice();
             clearFooterForm();

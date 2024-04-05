@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 package controller;
+
 import java.io.InputStream;
 
-import helper.AlertHelper;
+import helper.AlertFacade;
 import database.DbConnection;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
@@ -76,10 +77,10 @@ public class AddSalesController implements Initializable {
 
     @FXML
     private ComboBox comboBoxLocation;
-    
+
     @FXML
     private ComboBox comboBoxCurrency;
-    
+
     @FXML
     private TextField textFieldTaux;
 
@@ -112,7 +113,7 @@ public class AddSalesController implements Initializable {
 
     @FXML
     private TextField textFieldRemarks;
-    
+
     @FXML
     private DatePicker date;
 
@@ -131,7 +132,7 @@ public class AddSalesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-System.out.println("in initialize sales");
+        System.out.println("in initialize sales");
         String rightPositionCSS = "-fx-alignment: CENTER-RIGHT;";
         String centerPostionCSS = "-fx-alignment: CENTER;";
         AutoCompletionTextFieldBinding test = new AutoCompletionTextFieldBinding<>(textFieldItem, provider);
@@ -178,10 +179,10 @@ System.out.println("in initialize sales");
 
         comboBoxLocation.getItems().setAll("Rack", "Depot", "Display");
         comboBoxLocation.getSelectionModel().select("Depot");
-        
+
         comboBoxCurrency.getItems().setAll("INR");
         comboBoxCurrency.getSelectionModel().select("INR");
-        
+
         date.setValue(LocalDate.now());
     }
 
@@ -205,7 +206,7 @@ System.out.println("in initialize sales");
                             + "and a.item_id = p.item_id\n"
                             + "order by 2";
                     PreparedStatement pstmt = con.prepareStatement(query);
-                    
+
                     pstmt.setString(1, typedItem);
                     ResultSet rs = pstmt.executeQuery();
 
@@ -362,16 +363,20 @@ System.out.println("in initialize sales");
             int selectedRowNum = tableViewItem.getSelectionModel().getSelectedIndex();
             tableViewItem.getItems().remove(selectedRowNum);
 
-            tableViewItem.getItems().add(selectedRowNum, new Item(textFieldItem.getText(), (String) comboBoxUom.getSelectionModel().getSelectedItem(),
-                    Float.parseFloat(textFieldQty.getText()), Float.parseFloat(textFieldPrice.getText()), Float.parseFloat(textFieldAmount.getText()), (String) comboBoxLocation.getSelectionModel().getSelectedItem(),
-                    itemId)
-            );
+            tableViewItem.getItems().add(selectedRowNum,
+                    new Item(textFieldItem.getText(), (String) comboBoxUom.getSelectionModel().getSelectedItem(),
+                            Float.parseFloat(textFieldQty.getText()), Float.parseFloat(textFieldPrice.getText()),
+                            Float.parseFloat(textFieldAmount.getText()),
+                            (String) comboBoxLocation.getSelectionModel().getSelectedItem(),
+                            itemId));
             selectedTableViewRow = 0;
         } else {
-            tableViewItem.getItems().add(new Item(textFieldItem.getText(), (String) comboBoxUom.getSelectionModel().getSelectedItem(),
-                    Float.parseFloat(textFieldQty.getText()), Float.parseFloat(textFieldPrice.getText()), Float.parseFloat(textFieldAmount.getText()), (String) comboBoxLocation.getSelectionModel().getSelectedItem(),
-                    itemId)
-            );
+            tableViewItem.getItems()
+                    .add(new Item(textFieldItem.getText(), (String) comboBoxUom.getSelectionModel().getSelectedItem(),
+                            Float.parseFloat(textFieldQty.getText()), Float.parseFloat(textFieldPrice.getText()),
+                            Float.parseFloat(textFieldAmount.getText()),
+                            (String) comboBoxLocation.getSelectionModel().getSelectedItem(),
+                            itemId));
         }
         this.clearHeaderForm();
         this.calculateTotalAmount();
@@ -382,7 +387,7 @@ System.out.println("in initialize sales");
         textFieldItem.clear();
         comboBoxUom.getItems().clear();
         textFieldQty.clear();
-//        comboBoxLocation.getItems().clear();
+        // comboBoxLocation.getItems().clear();
         textFieldPrice.clear();
         textFieldAmount.clear();
         textFieldItem.requestFocus();
@@ -408,9 +413,11 @@ System.out.println("in initialize sales");
         float amount = 0;
         float quantity = 0;
         float other = 0;
-        amount = tableViewItem.getItems().stream().map((item) -> item.getAmount()).reduce(amount, (accumulator, _item) -> accumulator + _item);
+        amount = tableViewItem.getItems().stream().map((item) -> item.getAmount()).reduce(amount,
+                (accumulator, _item) -> accumulator + _item);
 
-        quantity = tableViewItem.getItems().stream().map((item) -> item.getQuantity()).reduce(quantity, (accumulator, _item) -> accumulator + _item);
+        quantity = tableViewItem.getItems().stream().map((item) -> item.getQuantity()).reduce(quantity,
+                (accumulator, _item) -> accumulator + _item);
 
         try {
             other = Float.parseFloat(textFieldTotalOther.getText());
@@ -425,7 +432,8 @@ System.out.println("in initialize sales");
     }
 
     public void getSelectedRowTableView() {
-        List<Item> collect = (List<Item>) tableViewItem.getSelectionModel().getSelectedItems().stream().collect(Collectors.toList());
+        List<Item> collect = (List<Item>) tableViewItem.getSelectionModel().getSelectedItems().stream()
+                .collect(Collectors.toList());
         if (collect.size() > 0) {
             selectedTableViewRow = 1;
             itemId = collect.get(0).getItemId();
@@ -458,18 +466,21 @@ System.out.println("in initialize sales");
             int posSequence = rs1.getInt("nextval");
             String query = "insert into sales (order_id,INVOICE_DATE,TOTAL_QUANTITY,TOTAL_AMOUNT,OTHER_AMOUNT,TOTAL_PAYBLE_AMOUNT,"
                     + "TOTAL_PAID_AMOUNT,TOTAL_DUE_AMOUNT,PARTY_NAME,PARTY_CONTACT,CURRENCY,TAUX,REMARKS)"
-                    + "values(" + posSequence + ",date '" + date.getValue() +"','" + textFieldTotalQuantity.getText() + "','" + textFieldTotalAmount.getText() + "',"
-                    + "'" + textFieldTotalOther.getText() + "','" + textFieldTotalPaybleAmount.getText() + "','" + textFieldTotalPaidAmount.getText() + "','" + textFieldTotalDueAmount.getText() + "',"
+                    + "values(" + posSequence + ",date '" + date.getValue() + "','" + textFieldTotalQuantity.getText()
+                    + "','" + textFieldTotalAmount.getText() + "',"
+                    + "'" + textFieldTotalOther.getText() + "','" + textFieldTotalPaybleAmount.getText() + "','"
+                    + textFieldTotalPaidAmount.getText() + "','" + textFieldTotalDueAmount.getText() + "',"
                     + "'" + textFieldParty.getText() + "','" + textFieldContact.getText() + "',"
                     + "'" + comboBoxCurrency.getValue() + "','" + textFieldTaux.getText() + "',"
                     + "'" + textFieldRemarks.getText() + "')";
             int rs = stmt.executeUpdate(query);
-            
 
             String posDetailsQuery = "insert into sale_details (order_id,ITEM_ID,ITEM_NAME,UOM,QUANTITY,PRICE,AMOUNT) ";
             int count = 0;
             for (Item item : tableViewItem.getItems()) {
-                posDetailsQuery += "select " + posSequence + ",'" + item.getItemId() + "','" + item.getItem() + "','" + item.getUom() + "'," + item.getQuantity() + "," + item.getPrice() + "," + item.getAmount() + " from dual ";
+                posDetailsQuery += "select " + posSequence + ",'" + item.getItemId() + "','" + item.getItem() + "','"
+                        + item.getUom() + "'," + item.getQuantity() + "," + item.getPrice() + "," + item.getAmount()
+                        + " from dual ";
                 if (count != (tableViewItem.getItems().size() - 1)) {
                     posDetailsQuery += "union all ";
                 }
@@ -479,7 +490,7 @@ System.out.println("in initialize sales");
 
             Window owner = buttonSave.getScene().getWindow();
 
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "A record has been saved successfully.");
             printInvoice();
             clearFooterForm();
@@ -518,14 +529,13 @@ System.out.println("in initialize sales");
 
     public void printInvoice() {
         String sourceFile = "/POS/store-pos/src/print/Invoice.jrxml";
-       
 
-		System.out.println("invoice");
+        System.out.println("invoice");
         try {
             JasperReport jr = JasperCompileManager.compileReport(sourceFile);
-                System.out.println("in jr");
+            System.out.println("in jr");
 
-//            System.out.println(jr);
+            // System.out.println(jr);
             HashMap<String, Object> para = new HashMap<>();
             para.put("invoiceNo", "SHOP01/000001");
             para.put("party", textFieldParty.getText());
@@ -540,17 +550,19 @@ System.out.println("in initialize sales");
             para.put("dueAmount", textFieldTotalDueAmount.getText());
             para.put("remarks", textFieldRemarks.getText());
             para.put("point1", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.");
-            para.put("point2", "If you have any questions concerning this invoice, use the following contact information:");
+            para.put("point2",
+                    "If you have any questions concerning this invoice, use the following contact information:");
             para.put("point3", "+243 999999999, sales@example.com");
 
             ArrayList<Item> plist = new ArrayList<>();
-System.out.println("preparing");
+            System.out.println("preparing");
             for (Item item : tableViewItem.getItems()) {
-                plist.add(new Item(item.getItem(), item.getUom(), item.getQuantity(), item.getPrice(), item.getAmount(), item.getLocation(), item.getItemId()));
+                plist.add(new Item(item.getItem(), item.getUom(), item.getQuantity(), item.getPrice(), item.getAmount(),
+                        item.getLocation(), item.getItemId()));
             }
-System.out.println(plist);
+            System.out.println(plist);
             JRBeanCollectionDataSource jcs = new JRBeanCollectionDataSource(plist);
-            
+
             JasperPrint jp = JasperFillManager.fillReport(jr, para, jcs);
             JasperViewer.viewReport(jp, false);
 
@@ -578,7 +590,7 @@ System.out.println(plist);
                 provider1.clearSuggestions();
                 provider1.addPossibleSuggestions(filteredAutoCompletions);
             } catch (SQLException ex) {
-//                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

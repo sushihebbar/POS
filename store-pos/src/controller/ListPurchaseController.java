@@ -6,7 +6,9 @@
 package controller;
 
 import database.DbConnection;
+import helper.AlertFacade;
 import helper.AlertHelper;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -159,7 +161,7 @@ public class ListPurchaseController implements Initializable {
     @FXML
     private void deleteInvoice(ActionEvent event) {
         Window owner = deleteButton.getScene().getWindow();
-        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Confirmation",
+        AlertFacade.showAlert(Alert.AlertType.CONFIRMATION, owner, "Confirmation",
                 "Do you want to delete it?");
         if (AlertHelper.result) {
             List<PurchaseModel> collect = (List<PurchaseModel>) tableView.getSelectionModel().getSelectedItems().stream().collect(Collectors.toList());
@@ -170,7 +172,7 @@ public class ListPurchaseController implements Initializable {
                 stmt = con.createStatement();
                 stmt.executeQuery("delete from purchases where order_id = " + orderId);
                 tableView.getItems().remove(collect.get(0));
-                AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+                AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                         "A record has been deleted successfully.");
             } catch (SQLException ex) {
                 Logger.getLogger(ListPurchaseController.class.getName()).log(Level.SEVERE, null, ex);

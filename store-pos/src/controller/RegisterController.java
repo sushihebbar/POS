@@ -6,7 +6,7 @@
 package controller;
 
 import database.DbConnection;
-import helper.AlertHelper;
+import helper.AlertFacade;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -85,15 +85,15 @@ public class RegisterController implements Initializable {
                 ps.setString(5, password.getText());
                 if (ps.executeUpdate() > 0) {
                     this.clearForm();
-                    AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Information",
+                    AlertFacade.showAlert(Alert.AlertType.INFORMATION, window, "Information",
                             "You have registered successfully.");
                 } else {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+                    AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                             "Something went wrong.");
                 }
 
             } catch (SQLException ex) {
-                AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+                AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                         "Something went wrong.");
             }
         }
@@ -122,59 +122,59 @@ public class RegisterController implements Initializable {
 
         window = registerButton.getScene().getWindow();
         if (firstName.getText().equals("")) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "First name text field cannot be blank.");
             firstName.requestFocus();
         } else if (firstName.getText().length() < 2 || firstName.getText().length() > 25) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "First name text field cannot be less than 2 and greator than 25 characters.");
             firstName.requestFocus();
         } else if (lastName.getText().equals("")) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Last name text field cannot be blank.");
             lastName.requestFocus();
         } else if (lastName.getText().length() < 2 || lastName.getText().length() > 25) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Last name text field cannot be less than 2 and greator than 25 characters.");
             lastName.requestFocus();
         } else if (email.getText().equals("")) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Email text field cannot be blank.");
             email.requestFocus();
         } else if (email.getText().length() < 5 || email.getText().length() > 45) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Email text field cannot be less than 5 and greator than 45 characters.");
             email.requestFocus();
         } else if (username.getText().equals("")) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Username text field cannot be blank.");
             username.requestFocus();
         } else if (username.getText().length() < 5 || username.getText().length() > 25) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Username text field cannot be less than 5 and greator than 25 characters.");
             username.requestFocus();
         } else if (password.getText().equals("")) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Password text field cannot be blank.");
             password.requestFocus();
         } else if (password.getText().length() < 5 || password.getText().length() > 25) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Password text field cannot be less than 5 and greator than 25 characters.");
             password.requestFocus();
         } else if (confirmPassword.getText().equals("")) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Confirm password text field cannot be blank.");
             confirmPassword.requestFocus();
         } else if (confirmPassword.getText().length() < 5 || password.getText().length() > 25) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Confirm password text field cannot be less than 5 and greator than 25 characters.");
             confirmPassword.requestFocus();
         } else if (!password.getText().equals(confirmPassword.getText())) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "Password and confirm password text fields does not match.");
             password.requestFocus();
         } else if (isAlreadyRegistered()) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
+            AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error",
                     "The username is already taken by someone else.");
             username.requestFocus();
         } else {

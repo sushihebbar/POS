@@ -5,7 +5,7 @@
  */
 package controller;
 
-import helper.AlertHelper;
+import helper.AlertFacade;
 import database.DbConnection;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
@@ -438,13 +438,13 @@ public class AddPurchaseController implements Initializable {
         Window owner = buttonSave.getScene().getWindow();
         if(date.getValue()==null)
         {
-        AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+        AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "date is required");
         return;
         }
 //        if(tableViewItem.getItems()==null)
 //        {
-//            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+//            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
 //                    "no item added");
 //            return;
 //        }
@@ -474,7 +474,7 @@ public class AddPurchaseController implements Initializable {
             }
             if(count ==0)
         {
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "no item added");
             return;
         }
@@ -482,7 +482,7 @@ public class AddPurchaseController implements Initializable {
 
 //            Window owner = buttonSave.getScene().getWindow();
 
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "A record has been saved successfully.");
             printInvoice();
             clearFooterForm();

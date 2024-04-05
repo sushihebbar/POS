@@ -5,13 +5,12 @@
  */
 package controller;
 
-import helper.AlertHelper;
+import helper.AlertFacade;
 import database.DbConnection;
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
 import java.net.URL;
 import java.sql.Connection;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -57,7 +56,6 @@ public class AddItemViewController implements Initializable {
     private TextField textFieldQty;
 
   
-
     @FXML
     private TextField textFieldPrice;
 
@@ -269,13 +267,13 @@ int count = 0;
 
             if(count ==0)
         {
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "no item added");
             return;
         }
 
 
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "A record has been saved successfully.");
             
             clearFooterForm();

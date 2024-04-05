@@ -166,7 +166,7 @@
 				<textElement textAlignment="Left">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Taux]]></text>
+				<text><![CDATA[Tax]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="85" y="84" width="90" height="15" uuid="803bc527-a631-4733-a335-6c7d03071bea">
