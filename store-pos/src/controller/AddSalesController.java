@@ -52,6 +52,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author 650_654_674_625
  */
+
 public class AddSalesController implements Initializable {
 
     @FXML
