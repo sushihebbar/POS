@@ -231,6 +231,14 @@
             </HBox>
             <HBox prefHeight="244.0" prefWidth="1190.0">
                <children>
+                  <AreaChart fx:id="chartSale" prefHeight="240.0" prefWidth="1093.0" title="Sale" visible="true">
+                     <xAxis>
+                        <CategoryAxis label="Day" prefHeight="0.0" prefWidth="511.0" side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis label="Value" side="LEFT" />
+                     </yAxis>
+                  </AreaChart>
                   <LineChart fx:id="chartReceipt" prefHeight="240.0" prefWidth="1162.0" title="Cash Flow" visible="false">
                     <xAxis>
                       <CategoryAxis prefHeight="0.0" prefWidth="1105.0" side="BOTTOM" />
@@ -250,14 +258,6 @@
                     <yAxis>
                       <NumberAxis label="Value" side="LEFT" />
                     </yAxis>
-                  </AreaChart>
-                  <AreaChart fx:id="chartSale" prefHeight="250.0" prefWidth="578.0" title="Sale" visible="false">
-                     <xAxis>
-                        <CategoryAxis label="Day" prefHeight="0.0" prefWidth="511.0" side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis label="Value" side="LEFT" />
-                     </yAxis>
                   </AreaChart>
                </children>
             </HBox>

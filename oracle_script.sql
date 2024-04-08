@@ -185,3 +185,22 @@ from pos.item_prices
       where a.name='abc' and a.pack_unit_id = b.UOM_ID and qoh>0 and a.standard_unit_id = c.uom_id
     and a.item_id = p.item_id
       order by 2
+
+select TO_CHAR(A.INVOICE_DATE,'dd') day, sum(b.price)
+ from pos.SALES A, pos.SALE_DETAILs B WHERE B.ORDER_ID = A.ORDER_ID
+group by TO_CHAR(A.INVOICE_DATE,'dd')
+order by 1
+
+
+select TO_CHAR(A.INVOICE_DATE,'dd') day, sum(b.amount)
+ from pos.SALE_RETURns A, pos.SALE_RETURN_DETAILS B WHERE B.ORDER_ID = A.ORDER_ID
+group by TO_CHAR(A.INVOICE_DATE,'dd')
+order by 1
+
+select * from pos.SALE_RETURN_DETAILS
+select * from pos.SALE_RETURns
+
+
+
+
+

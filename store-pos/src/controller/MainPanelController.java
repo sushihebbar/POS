@@ -5,8 +5,13 @@
  */
 package controller;
 
+import database.DbConnection;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -53,13 +58,18 @@ public class MainPanelController implements Initializable {
     @FXML
     private LineChart<?, ?> chartReceipt;
 
+     private final Connection con;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         menus = Arrays.asList(addPurchase, purchaseDetail, addPurchaseReturn, purchaseReturnDetail, addSales,
-                salesDetail, addSalesReturn, salesReturnDetail,AddItem);
+                salesDetail, addSalesReturn, salesReturnDetail);
+         Statement stmt;
+         ResultSet rs1;
+         ResultSet rs2;
+         
         XYChart.Series purchaseSeries= new XYChart.Series();
         
         purchaseSeries.getData().add(new XYChart.Data("1", 8000));
@@ -136,6 +146,43 @@ public class MainPanelController implements Initializable {
         saleReturnSeries.getData().add(new XYChart.Data("16", 8));
         saleReturnSeries.getData().add(new XYChart.Data("17", 2));
         
+try{
+             
+        stmt = con.createStatement();
+        rs1 = stmt.executeQuery("select TO_CHAR(A.INVOICE_DATE,'dd') day, sum(b.price)\n" +
+" from pos.SALES A, pos.SALE_DETAILs B WHERE B.ORDER_ID = A.ORDER_ID\n" +
+"group by TO_CHAR(A.INVOICE_DATE,'dd')\n" +
+"order by 1");
+        
+            rs1.next();
+//            XYChart.Series<String, Number> saleSeries = new XYChart.Series<>();
+            String day="";
+    while (rs1.next()) {
+         day = rs1.getString(1);
+        int sum = rs1.getInt(2); // Assuming the sum of prices is in the second column
+
+        saleSeries.getData().add(new XYChart.Data<>(day, sum));
+        
+
+    }
+    rs2 = stmt.executeQuery("select TO_CHAR(A.INVOICE_DATE,'dd') day, sum(b.amount)\n" +
+" from pos.SALE_RETURns A, pos.SALE_RETURN_DETAILS B WHERE B.ORDER_ID = A.ORDER_ID\n" +
+"group by TO_CHAR(A.INVOICE_DATE,'dd')\n" +
+"order by 1");
+        
+            rs1.next();
+//            XYChart.Series<String, Number> saleSeries = new XYChart.Series<>();
+            String date="";
+    while (rs2.next()) {
+         date = rs2.getString(1);
+        int sum = rs2.getInt(2); // Assuming the sum of prices is in the second column
+
+        saleSeries.getData().add(new XYChart.Data<>(date, sum));
+        
+
+    }
+    chartSale.getData().addAll(saleSeries, saleReturnSeries);
+    
         XYChart.Series receiptSeries = new XYChart.Series();
         
         receiptSeries.getData().add(new XYChart.Data("1", 12000));
@@ -156,6 +203,7 @@ public class MainPanelController implements Initializable {
         receiptSeries.getData().add(new XYChart.Data("17", 5000));
         
         XYChart.Series paymentSeries = new XYChart.Series();
+        
         
         paymentSeries.getData().add(new XYChart.Data("1", 6000));
         paymentSeries.getData().add(new XYChart.Data("2", 5000));
@@ -182,8 +230,11 @@ public class MainPanelController implements Initializable {
         saleReturnSeries.setName("Sales Return");
         
         chartPurchase.getData().addAll(purchaseSeries, purchaseReturnSeries);
-        chartSale.getData().addAll(saleSeries, saleReturnSeries);
-        chartReceipt.getData().addAll(paymentSeries, receiptSeries);    
+//        chartSale.getData().addAll(saleSeries, saleReturnSeries);
+        chartReceipt.getData().addAll(paymentSeries, receiptSeries);   
+         }catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
 
     private void changeButtonBackground(ActionEvent e) {
@@ -200,6 +251,11 @@ public class MainPanelController implements Initializable {
         }
 
     }
+    public MainPanelController(){
+            DbConnection dbc = DbConnection.getDatabaseConnection();
+        con = dbc.getConnection();
+    }
+
 
     @FXML
     private void clear() {
