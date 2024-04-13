@@ -334,7 +334,7 @@ try{
 
     @FXML
     private void loadListPurchaseView(ActionEvent e) {
-        loadFXML("ListPurchaseView");
+        loadFXML("ListPurchaseDetailsView");
         changeButtonBackground(e);
     }
 
@@ -357,6 +357,10 @@ try{
 
     public void loadEditPurchaseView(ActionEvent e) {
         loadFXML("ListPurchaseView");
+        changeButtonBackground(e);
+    }
+    public void MainPanelView(ActionEvent e) {
+        loadFXML("MainPanelView");
         changeButtonBackground(e);
     }
 }

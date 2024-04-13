@@ -435,6 +435,13 @@ public class AddSalesReturnController implements Initializable {
 
     @FXML
     private void save() {
+        Window owner = buttonSave.getScene().getWindow();
+        if((textFieldTotalPaidAmount.getText()).equals(""))
+        {
+            AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+                    "Refund paid amount cannot be empty.");
+            return;
+        }
         LocalDate documentDate = LocalDate.now();
         try {
             Statement stmt = con.createStatement();
@@ -460,7 +467,7 @@ public class AddSalesReturnController implements Initializable {
             }
             ResultSet record = stmt.executeQuery(posDetailsQuery);
 
-            Window owner = buttonSave.getScene().getWindow();
+            
 
             AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
                     "A record has been saved successfully.");
