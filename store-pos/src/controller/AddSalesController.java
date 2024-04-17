@@ -131,6 +131,9 @@ public class AddSalesController implements Initializable {
     private int selectedTableViewRow = 0;
     private long itemId;
 
+    
+     
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("in initialize sales");

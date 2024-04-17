@@ -60,42 +60,47 @@ public class LoginController implements Initializable {
     @FXML
     private void login() throws Exception {
 
-        if (this.isValidated()) {
-            PreparedStatement ps;
-            ResultSet rs;
 
-            String query = "select * from users WHERE user_name = ? and password = ?";
-            try {
-                ps = con.prepareStatement(query);
-                ps.setString(1, username.getText());
-                ps.setString(2, password.getText());
-                rs = ps.executeQuery();
-
-                if (rs.next()) {
-
-                    Stage stage = (Stage) loginButton.getScene().getWindow();
-                    stage.close();
-
-                    Parent root = FXMLLoader.load(getClass().getResource("/view/MainPanelView.fxml"));
-//                      Parent root = FXMLLoader.load(getClass().getResource("/view/main.fxml"));
-                    Scene scene = new Scene(root);
-
-                    stage.setScene(scene);
-                    stage.setTitle("Admin Panel");
-                    stage.getIcons().add(new Image("/asset/icon.png"));
-                    stage.show();
-
+    if (this.isValidated()) {
+                if (authenticate(username.getText(), password.getText())) {
+                    navigateToMainPanel();
                 } else {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error",
-                            "Invalid username and password.");
-                    username.requestFocus();
+                    showAlert("Invalid username and password.");
                 }
-            } catch (SQLException ex) {
-                System.out.println(ex);
             }
+}
+
+    protected boolean authenticate(String username, String password) {
+        PreparedStatement ps;
+        ResultSet rs;
+
+        String query = "select * from users WHERE user_name = ? and password = ?";
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
         }
     }
+    
+    protected void navigateToMainPanel() throws IOException {
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.close();
 
+        Parent root = FXMLLoader.load(getClass().getResource("/view/MainPanelView.fxml"));
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.setTitle("Admin Panel");
+        stage.getIcons().add(new Image("/asset/icon.png"));
+        stage.show();
+    }
     private boolean isValidated() {
 
         window = loginButton.getScene().getWindow();
@@ -134,5 +139,8 @@ public class LoginController implements Initializable {
         stage.setTitle("User Registration");
         stage.getIcons().add(new Image("/asset/icon.png"));
         stage.show();
+    }
+     protected void showAlert(String message) {
+        AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error", message);
     }
 }

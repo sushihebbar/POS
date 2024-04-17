@@ -70,11 +70,6 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="button61" layoutX="10.0" layoutY="290.0" mnemonicParsing="false" onAction="#MainPanelView" prefHeight="30.0" prefWidth="175.0" style="-fx-text-fill: #f0f0f0;" styleClass="bt" stylesheets="@mainpanel.css" text="Main Panel" textAlignment="JUSTIFY">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
             <Button fx:id="button1" mnemonicParsing="false" prefHeight="30.0" prefWidth="175.0" style="-fx-text-fill: #f0f0f0;" styleClass="bt" stylesheets="@mainpanel.css" text="Inventory Transfer" textAlignment="JUSTIFY" visible="false">
                <font>
                   <Font name="System Bold" size="12.0" />

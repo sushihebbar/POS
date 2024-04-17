@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="RPOS.jar" size="191336" download="eager" />
+    <jar href="RPOS.jar" size="191463" download="eager" />
     <jar href="lib\aopalliance-1.0.jar" size="4467" download="eager" />
     <jar href="lib\bcmail-jdk14-138.jar" size="192035" download="eager" />
     <jar href="lib\bcprov-jdk14-138.jar" size="1551468" download="eager" />
@@ -40,6 +40,9 @@
     <jar href="lib\javax.inject-1.jar" size="2497" download="eager" />
     <jar href="lib\jcommon-1.0.23.jar" size="330246" download="eager" />
     <jar href="lib\jfreechart-1.0.19.jar" size="1565065" download="eager" />
+    <jar href="lib\log4j-api-2.1.jar" size="133531" download="eager" />
+    <jar href="lib\log4j-core-2.23.1.jar" size="1901886" download="eager" />
+    <jar href="lib\log4j-over-slf4j-2.1.0-alpha0.jar" size="26714" download="eager" />
     <jar href="lib\lucene-analyzers-common-4.5.1.jar" size="1586103" download="eager" />
     <jar href="lib\lucene-core-4.5.1.jar" size="2297477" download="eager" />
     <jar href="lib\lucene-queries-4.5.1.jar" size="205195" download="eager" />
@@ -47,6 +50,8 @@
     <jar href="lib\lucene-sandbox-4.5.1.jar" size="45578" download="eager" />
     <jar href="lib\ojdbc14.jar" size="1536554" download="eager" />
     <jar href="lib\org.apache.commons.lang-2.6.jar" size="271348" download="eager" />
+    <jar href="lib\slf4j-api-2.0.13.jar" size="68605" download="eager" />
+    <jar href="lib\slf4j-simple-2.0.13.jar" size="15703" download="eager" />
     <jar href="lib\spring-aop-3.0.6.RELEASE.jar" size="321428" download="eager" />
     <jar href="lib\spring-asm-3.0.6.RELEASE.jar" size="53082" download="eager" />
     <jar href="lib\spring-beans-3.0.6.RELEASE.jar" size="556590" download="eager" />
