@@ -180,3 +180,4 @@ public class ListPurchaseController implements Initializable {
         }
     }
 }
+
