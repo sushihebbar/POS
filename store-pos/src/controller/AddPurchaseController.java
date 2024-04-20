@@ -519,7 +519,7 @@ public class AddPurchaseController implements Initializable {
     }
 
     public void printInvoice() {
-        String sourceFile = "C://Users/Ramesh Godara/Documents/NetBeansProjects/RPOS/src/print/Invoice.jrxml";
+        String sourceFile = "/POS/store-pos/src/print/Invoice.jrxml";
         try {
             JasperReport jr = JasperCompileManager.compileReport(sourceFile);
             HashMap<String, Object> para = new HashMap<>();
