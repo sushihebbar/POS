@@ -273,12 +273,18 @@ public class RegisterController implements Initializable, Observer {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        observers.add(new TextFieldObserver(firstName));
+        observers.add(new TextFieldObserver(firstName)); 
+        //instances of TextFieldObserver are created for each text field that requires observation
         observers.add(new TextFieldObserver(lastName));
         observers.add(new TextFieldObserver(email));
         observers.add(new TextFieldObserver(username));
         observers.add(new TextFieldObserver(password));
         observers.add(new TextFieldObserver(confirmPassword));
+        for (TextFieldObserver observer : observers) {
+        observer.getTextField().textProperty().addListener((observable, oldValue, newValue) -> {
+            update(observer);
+        });
+    }
     }
 
     public RegisterController() {
@@ -289,6 +295,7 @@ public class RegisterController implements Initializable, Observer {
     @FXML
     private void register() {
         window = registerButton.getScene().getWindow();
+        //This line retrieves the window associated with the button that triggered the registration action.
         if (this.isValidated()) {
             Statement stmt;
             try {
@@ -338,6 +345,7 @@ public class RegisterController implements Initializable, Observer {
 
     private boolean isValidated() {
         for (TextFieldObserver observer : observers) {
+            //iterates over each TextFieldObserver object in the observers list.
             if (!observer.isValid()) {
                 return false;
             }
@@ -380,7 +388,9 @@ public class RegisterController implements Initializable, Observer {
 
     @Override
     public void update(TextFieldObserver observer) {
+        //implements the update function of observer
         if (!observer.isValid()) {
+            System.out.println("herh");
             AlertFacade.showAlert(Alert.AlertType.ERROR, window, "Error", observer.getErrorMessage());
             observer.getTextField().requestFocus();
         }
@@ -410,6 +420,7 @@ class TextFieldObserver {
 
     public boolean isValid() {
         String text = textField.getText().trim();
+        System.out.println(text.length() >= minLength && text.length() <= maxLength);
         return text.length() >= minLength && text.length() <= maxLength;
     }
 

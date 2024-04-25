@@ -37,6 +37,7 @@ public class SalesModel {
         this.totalPaybleAmount = totalPaybleAmount;
         this.totalPaidAmount = totalPaidAmount;
         this.totalDueAmount = totalDueAmount;
+        
     }
 
     public long getOrderId() {
@@ -75,6 +76,10 @@ public class SalesModel {
         return totalDueAmount;
     }
 
+   
+    public String getCurrency() {
+        return currency;
+    }
     public void setOrderId(long orderId) {
         this.orderId = orderId;
     }
@@ -111,9 +116,7 @@ public class SalesModel {
         this.totalDueAmount = totalDueAmount;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
+  
 
     public void setCurrency(String currency) {
         this.currency = currency;
@@ -126,5 +129,5 @@ public class SalesModel {
     public void setTaux(float taux) {
         this.taux = taux;
     }
-    
+   
 }

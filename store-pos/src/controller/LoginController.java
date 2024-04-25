@@ -144,3 +144,5 @@ public class LoginController implements Initializable {
         AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Error", message);
     }
 }
+
+

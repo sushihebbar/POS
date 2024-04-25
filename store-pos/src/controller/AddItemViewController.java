@@ -106,9 +106,9 @@ public class AddItemViewController implements Initializable {
     SuggestionProvider<String> provider = SuggestionProvider.create(items);
     private AutoCompletionBinding<String> autoCompleteBinding;
 
-    Set<String> customers = new HashSet<>();
-    SuggestionProvider<String> provider1 = SuggestionProvider.create(customers);
-    private AutoCompletionBinding<String> autoCompleteBinding1;
+//    Set<String> customers = new HashSet<>();
+//    SuggestionProvider<String> provider1 = SuggestionProvider.create(customers);
+//    private AutoCompletionBinding<String> autoCompleteBinding1;
 
     private final Connection con;
 
@@ -168,6 +168,7 @@ System.out.println("in initialize2 \n");
             int selectedRowNum = tableViewItem.getSelectionModel().getSelectedIndex();
             tableViewItem.getItems().remove(selectedRowNum);
             
+            //set to the model
             
             tableViewItem.getItems().add(selectedRowNum, 
                     new ItemModel(textFieldItemCode.getText(),

@@ -205,6 +205,19 @@ order by 1
 select * from pos.SALE_RETURN_DETAILS
 select * from pos.SALE_RETURns
 
+select * from pos.items;
+
+update pos.item_prices set effective_to = sysdate+200 where item_price_id = 99;
+
+commit
+rollback
+
+select * from pos.uoms;
+update pos.uoms set name = 'Nos.'
+
+commit
+
+
 
 
 

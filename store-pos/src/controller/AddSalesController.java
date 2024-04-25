@@ -41,6 +41,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Window;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import model.Item;
+import model.SalesModel;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -118,7 +119,7 @@ public class AddSalesController implements Initializable {
     @FXML
     private DatePicker date;
 
-    Set<String> items = new HashSet<>();
+    Set<String> items = new HashSet<>();	//to store suggestions for auto-completion.
     SuggestionProvider<String> provider = SuggestionProvider.create(items);
     private AutoCompletionBinding<String> autoCompleteBinding;
 
@@ -136,19 +137,22 @@ public class AddSalesController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("in initialize sales");
-        String rightPositionCSS = "-fx-alignment: CENTER-RIGHT;";
+        // System.out.println("in initialize sales");
+        String rightPositionCSS = "-fx-alignment: CENTER-RIGHT;"; //align elements in table to centre right
         String centerPostionCSS = "-fx-alignment: CENTER;";
+        
         AutoCompletionTextFieldBinding test = new AutoCompletionTextFieldBinding<>(textFieldItem, provider);
         test.setOnAutoCompleted(e -> setUomAndPrice());
+		//auto completion for text field item and text field party, if chosen fill in the price
 
         AutoCompletionTextFieldBinding test1 = new AutoCompletionTextFieldBinding<>(textFieldParty, provider1);
         test1.setOnAutoCompleted(e -> setCustomer());
 
         TableColumn<Item, String> columnItem = new TableColumn<>("Item");
+		//map the properties of the Item model to the corresponding columns in the TableView.
         columnItem.setCellValueFactory(new PropertyValueFactory<>("item"));
         columnItem.setPrefWidth(400);
-
+		
         TableColumn<Item, String> columnUom = new TableColumn<>("Uom");
         columnUom.setCellValueFactory(new PropertyValueFactory<>("uom"));
 
@@ -163,7 +167,7 @@ public class AddSalesController implements Initializable {
         TableColumn<Item, Float> columnPrice = new TableColumn<>("Price");
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         columnPrice.setStyle(rightPositionCSS);
-
+ 
         TableColumn<Item, Float> columnAmount = new TableColumn<>("Amount");
         columnAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         columnAmount.setStyle(rightPositionCSS);
@@ -181,13 +185,16 @@ public class AddSalesController implements Initializable {
         tableViewItem.getColumns().add(columnPrice);
         tableViewItem.getColumns().add(columnAmount);
 
-        comboBoxLocation.getItems().setAll("Rack", "Depot", "Display");
-        comboBoxLocation.getSelectionModel().select("Depot");
+        // comboBoxLocation.getItems().setAll("Rack", "Depot", "Display");
+        comboBoxLocation.getItems().setAll("Rack");
+        
+        comboBoxLocation.getSelectionModel().select("Rack");
 
         comboBoxCurrency.getItems().setAll("INR");
         comboBoxCurrency.getSelectionModel().select("INR");
 
         date.setValue(LocalDate.now());
+        //default -> current date but can choose using date picker
     }
 
     @FXML
@@ -209,6 +216,7 @@ public class AddSalesController implements Initializable {
                             + "where code = ? and a.pack_unit_id = b.UOM_ID and a.standard_unit_id = c.uom_id\n"
                             + "and a.item_id = p.item_id\n"
                             + "order by 2";
+                    //  retrieves item details and price
                     PreparedStatement pstmt = con.prepareStatement(query);
 
                     pstmt.setString(1, typedItem);
@@ -289,6 +297,7 @@ public class AddSalesController implements Initializable {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
+                
                 items.clear();
                 comboBoxUom.getItems().clear();
                 comboBoxUom.getItems().setAll(rs.getString("pack_unit"), rs.getString("standard_unit"));
@@ -336,11 +345,12 @@ public class AddSalesController implements Initializable {
                         price = (float) (Math.round(price * 100) / 100.0);
                         textFieldPrice.setText(String.valueOf(price));
                     } else {
-                        int packSize = rs1.getInt("pack_size");
-                        float salePrice = rs1.getFloat("sale_price");
-                        float pricePerStandardUnit = packSize / salePrice;
-                        pricePerStandardUnit = (float) (Math.round(pricePerStandardUnit * 100) / 100.0);
-                        textFieldPrice.setText(String.valueOf(pricePerStandardUnit));
+                        // int packSize = rs1.getInt("pack_size");
+                        // //pack_size is assumed to be 1
+                        // float salePrice = rs1.getFloat("sale_price");
+                        // float pricePerStandardUnit = packSize / salePrice;
+                        // pricePerStandardUnit = (float) (Math.round(pricePerStandardUnit * 100) / 100.0);
+                        // textFieldPrice.setText(String.valueOf(pricePerStandardUnit));
                     }
                 }
                 this.calculatePrice();
@@ -358,6 +368,7 @@ public class AddSalesController implements Initializable {
             float amt = Float.parseFloat(textFieldPrice.getText());
             float tot = qty * amt;
             tot = (float) (Math.round(tot * 100) / 100.0);
+            //rounding to two decimal places
             textFieldAmount.setText(String.valueOf(tot));
         }
     }
@@ -365,6 +376,8 @@ public class AddSalesController implements Initializable {
     public void addItemInTableView() {
         if (selectedTableViewRow != 0) {
             int selectedRowNum = tableViewItem.getSelectionModel().getSelectedIndex();
+            // The selection model is responsible for managing the selection state of the items in the table view.
+            //returns an integer representing the index of the selected row, or -1 if no row is currently selected.
             tableViewItem.getItems().remove(selectedRowNum);
 
             tableViewItem.getItems().add(selectedRowNum,
@@ -460,9 +473,66 @@ public class AddSalesController implements Initializable {
         this.clearHeaderForm();
     }
 
+    // @FXML
+    // private void save() {
+    //     LocalDate documentDate = LocalDate.now();
+    //     try {
+    //         Statement stmt = con.createStatement();
+    //         ResultSet rs1 = stmt.executeQuery("select sales_order_id.nextval from dual");
+    //         rs1.next();
+    //         int posSequence = rs1.getInt("nextval");
+    //         String query = "insert into sales (order_id,INVOICE_DATE,TOTAL_QUANTITY,TOTAL_AMOUNT,OTHER_AMOUNT,TOTAL_PAYBLE_AMOUNT,"
+    //                 + "TOTAL_PAID_AMOUNT,TOTAL_DUE_AMOUNT,PARTY_NAME,PARTY_CONTACT,CURRENCY,TAUX,REMARKS)"
+    //                 + "values(" + posSequence + ",date '" + date.getValue() + "','" + textFieldTotalQuantity.getText()
+    //                 + "','" + textFieldTotalAmount.getText() + "',"
+    //                 + "'" + textFieldTotalOther.getText() + "','" + textFieldTotalPaybleAmount.getText() + "','"
+    //                 + textFieldTotalPaidAmount.getText() + "','" + textFieldTotalDueAmount.getText() + "',"
+    //                 + "'" + textFieldParty.getText() + "','" + textFieldContact.getText() + "',"
+    //                 + "'" + comboBoxCurrency.getValue() + "','" + textFieldTaux.getText() + "',"
+    //                 + "'" + textFieldRemarks.getText() + "')";
+    //         int rs = stmt.executeUpdate(query);
+
+    //         String posDetailsQuery = "insert into sale_details (order_id,ITEM_ID,ITEM_NAME,UOM,QUANTITY,PRICE,AMOUNT) ";
+    //         int count = 0;
+    //         for (Item item : tableViewItem.getItems()) {
+    //             posDetailsQuery += "select " + posSequence + ",'" + item.getItemId() + "','" + item.getItem() + "','"
+    //                     + item.getUom() + "'," + item.getQuantity() + "," + item.getPrice() + "," + item.getAmount()
+    //                     + " from dual ";
+    //                     // to loop through the rows in the table and insert (union for each row (batch insert))
+    //             if (count != (tableViewItem.getItems().size() - 1)) {
+    //                 posDetailsQuery += "union all ";
+    //             }
+    //             count++;
+    //         }
+    //         ResultSet record = stmt.executeQuery(posDetailsQuery);
+
+    //         Window owner = buttonSave.getScene().getWindow();
+
+    //         AlertFacade.showAlert(Alert.AlertType.INFORMATION, owner, "Information",
+    //                 "A record has been saved successfully.");
+    //         printInvoice();
+    //         clearFooterForm();
+    //         textFieldItem.requestFocus();
+    //     } catch (SQLException ex) {
+    //         System.out.println(ex);
+    //     }
+    // }
     @FXML
-    private void save() {
+     private void save() {
         LocalDate documentDate = LocalDate.now();
+        SalesModel salesModel = new SalesModel();
+        // // salesModel.setOrderId(posSequence);
+        // salesModel.setInvoiceDate(date.getValue().toString());
+        salesModel.setTotalQuantity(Float.parseFloat(textFieldTotalQuantity.getText()));
+        salesModel.setTotalAmount(Float.parseFloat(textFieldTotalAmount.getText()));
+        salesModel.setOtherAmount(Float.parseFloat(textFieldTotalOther.getText()));
+        salesModel.setTotalPaybleAmount(Float.parseFloat(textFieldTotalPaybleAmount.getText()));
+        salesModel.setTotalPaidAmount(Float.parseFloat(textFieldTotalPaidAmount.getText()));
+        salesModel.setTotalDueAmount(Float.parseFloat(textFieldTotalDueAmount.getText()));
+        salesModel.setPartyName(textFieldParty.getText());
+        // salesModel.setCurrency(comboBoxCurrency.getValue().toString());
+        salesModel.setTaux(Float.parseFloat(textFieldTaux.getText()));
+
         try {
             Statement stmt = con.createStatement();
             ResultSet rs1 = stmt.executeQuery("select sales_order_id.nextval from dual");
@@ -470,11 +540,11 @@ public class AddSalesController implements Initializable {
             int posSequence = rs1.getInt("nextval");
             String query = "insert into sales (order_id,INVOICE_DATE,TOTAL_QUANTITY,TOTAL_AMOUNT,OTHER_AMOUNT,TOTAL_PAYBLE_AMOUNT,"
                     + "TOTAL_PAID_AMOUNT,TOTAL_DUE_AMOUNT,PARTY_NAME,PARTY_CONTACT,CURRENCY,TAUX,REMARKS)"
-                    + "values(" + posSequence + ",date '" + date.getValue() + "','" + textFieldTotalQuantity.getText()
-                    + "','" + textFieldTotalAmount.getText() + "',"
-                    + "'" + textFieldTotalOther.getText() + "','" + textFieldTotalPaybleAmount.getText() + "','"
-                    + textFieldTotalPaidAmount.getText() + "','" + textFieldTotalDueAmount.getText() + "',"
-                    + "'" + textFieldParty.getText() + "','" + textFieldContact.getText() + "',"
+                    + "values(" + posSequence + ",date '" + date.getValue() + "','" + salesModel.getTotalQuantity()
+                    + "','" + salesModel.getTotalAmount() + "',"
+                    + "'" + salesModel.getOtherAmount() + "','" + salesModel.getTotalPaybleAmount() + "','"
+                    + salesModel.getTotalPaidAmount() + "','" + salesModel.getTotalDueAmount() + "',"
+                    + "'" + salesModel.getPartyName() + "','" + textFieldContact.getText() + "',"
                     + "'" + comboBoxCurrency.getValue() + "','" + textFieldTaux.getText() + "',"
                     + "'" + textFieldRemarks.getText() + "')";
             int rs = stmt.executeUpdate(query);
@@ -485,6 +555,7 @@ public class AddSalesController implements Initializable {
                 posDetailsQuery += "select " + posSequence + ",'" + item.getItemId() + "','" + item.getItem() + "','"
                         + item.getUom() + "'," + item.getQuantity() + "," + item.getPrice() + "," + item.getAmount()
                         + " from dual ";
+                        // to loop through the rows in the table and insert (union for each row (batch insert))
                 if (count != (tableViewItem.getItems().size() - 1)) {
                     posDetailsQuery += "union all ";
                 }
@@ -503,6 +574,7 @@ public class AddSalesController implements Initializable {
             System.out.println(ex);
         }
     }
+
 
     @FXML
     private void clearWholeForm() {
@@ -541,6 +613,7 @@ public class AddSalesController implements Initializable {
 
             // System.out.println(jr);
             HashMap<String, Object> para = new HashMap<>();
+            //A HashMap named para is created to store parameters required for the invoice.
             para.put("invoiceNo", "SHOP01/000001");
             para.put("party", textFieldParty.getText());
             para.put("currency", comboBoxCurrency.getValue());
@@ -566,10 +639,11 @@ public class AddSalesController implements Initializable {
             }
             System.out.println(plist);
             JRBeanCollectionDataSource jcs = new JRBeanCollectionDataSource(plist);
-
+            // jasper data source 
             JasperPrint jp = JasperFillManager.fillReport(jr, para, jcs);
             JasperViewer.viewReport(jp, false);
-
+            // viewer is not modal, allowing the user to interact with other 
+            // parts of the application while the report is being viewed.
         } catch (Exception ex) {
             System.out.println(ex);
             ex.printStackTrace();

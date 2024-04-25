@@ -72,6 +72,7 @@ public class Item {
     }
 
     public void setPrice(Float price) {
+        System.out.println("in set price of item model");
         this.price = price;
     }
 
