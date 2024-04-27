@@ -5,16 +5,15 @@
         <group>
             <file>file:/D:/POS/store-pos/src/helper/AlertFacade.java</file>
             <file>file:/D:/POS/store-pos/src/helper/AlertHelper.java</file>
+            <file>file:/D:/POS/store-pos/src/controller/ListSalesController.java</file>
             <file>file:/D:/POS/store-pos/src/controller/EditSalesReturnController.java</file>
-            <file>file:/D:/POS/store-pos/src/controller/LoginController.java</file>
-            <file>file:/D:/POS/store-pos/src/controller/SalesModelFactory.java</file>
-            <file>file:/D:/POS/store-pos/src/controller/ListPurchaseController.java</file>
+            <file>file:/D:/POS/store-pos/src/controller/EditPurchaseReturnController.java</file>
             <file>file:/D:/POS/store-pos/src/controller/AddItemViewController.java</file>
             <file>file:/D:/POS/store-pos/src/controller/AddSalesController.java</file>
-            <file>file:/D:/POS/store-pos/src/view/AddItemView.fxml</file>
-            <file>file:/D:/POS/store-pos/src/controller/MainPanelController.java</file>
-            <file>file:/D:/POS/store-pos/src/controller/EditSalesController.java</file>
+            <file>file:/D:/POS/store-pos/src/controller/AddPurchaseReturnController.java</file>
+            <file>file:/D:/POS/store-pos/src/controller/EditPurchaseController.java</file>
             <file>file:/D:/POS/store-pos/src/controller/RegisterController.java</file>
+            <file>file:/D:/POS/store-pos/src/controller/ListPurchaseReturnController.java</file>
         </group>
     </open-files>
 </project-private>
